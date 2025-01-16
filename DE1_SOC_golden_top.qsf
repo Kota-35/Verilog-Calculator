@@ -7,7 +7,7 @@ set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEMA5F31C6
 set_global_assignment -name TOP_LEVEL_ENTITY "DE1_SOC_golden_top"
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13"
-set_global_assignment -name LAST_QUARTUS_VERSION "22.1std.2 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "23.1std.1 Lite Edition"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "Thu Jul 11 11:26:45 2013"
 set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
 
