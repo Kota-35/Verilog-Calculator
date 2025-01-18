@@ -119,114 +119,134 @@ always @(posedge clk or negedge iRST_n) begin
             case (SCANCODE[7:0])
                 // 数字キー
                 8'h70: begin  // 0
-                    current_digit <= 4'h0;
-                    case (state)
-                        IDLE: begin
-                            first_num_bcd <= 24'd0;
-                            state <= FIRST_NUM;
-                        end
-                        FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], current_digit};
-                        SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], current_digit};
-                    endcase
+                    if (!ignore_text) begin
+                        current_digit <= 4'h0;
+                        case (state)
+                            IDLE: begin
+                                first_num_bcd <= 24'd0;
+                                state <= FIRST_NUM;
+                            end
+                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h0};
+                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h0};
+                        endcase
+                    end
                 end
                 8'h69: begin  // 1
-                    current_digit <= 4'h1;
-                    case (state)
-                        IDLE: begin
-                            first_num_bcd <= 24'd1;
-                            state <= FIRST_NUM;
-                        end
-                        FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], current_digit};
-                        SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], current_digit};
-                    endcase
+                    if (!ignore_text) begin
+                        current_digit <= 4'h1;
+                        case (state)
+                            IDLE: begin
+                                first_num_bcd <= 24'd1;
+                                state <= FIRST_NUM;
+                            end
+                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h1};
+                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h1};
+                        endcase
+                    end
                 end
                 8'h72: begin  // 2
-                    current_digit <= 4'h2;
-                    case (state)
-                        IDLE: begin
-                            first_num_bcd <= 24'd2;
-                            state <= FIRST_NUM;
-                        end
-                        FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], current_digit};
-                        SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], current_digit};
-                    endcase
+                    if (!ignore_text) begin
+                        current_digit <= 4'h2;
+                        case (state)
+                            IDLE: begin
+                                first_num_bcd <= 24'd2;
+                                state <= FIRST_NUM;
+                            end
+                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h2};
+                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h2};
+                        endcase
+                    end
                 end
                 8'h7A: begin  // 3
-                    current_digit <= 4'h3;
-                    case (state)
-                        IDLE: begin
-                            first_num_bcd <= 24'd3;
-                            state <= FIRST_NUM;
-                        end
-                        FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], current_digit};
-                        SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], current_digit};
-                    endcase
+                    if (!ignore_text) begin
+                        current_digit <= 4'h3;
+                        case (state)
+                            IDLE: begin
+                                first_num_bcd <= 24'd3;
+                                state <= FIRST_NUM;
+                            end
+                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h3};
+                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h3};
+                        endcase
+                    end
                 end
                 8'h6B: begin  // 4
-                    current_digit <= 4'h4;
-                    case (state)
-                        IDLE: begin
-                            first_num_bcd <= 24'd4;
-                            state <= FIRST_NUM;
-                        end
-                        FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], current_digit};
-                        SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], current_digit};
-                    endcase
+                    if (!ignore_text) begin
+                        current_digit <= 4'h4;
+                        case (state)
+                            IDLE: begin
+                                first_num_bcd <= 24'd4;
+                                state <= FIRST_NUM;
+                            end
+                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h4};
+                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h4};
+                        endcase
+                    end
                 end
                 8'h73: begin  // 5
-                    current_digit <= 4'h5;
-                    case (state)
-                        IDLE: begin
-                            first_num_bcd <= 24'd5;
-                            state <= FIRST_NUM;
-                        end
-                        FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], current_digit};
-                        SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], current_digit};
-                    endcase
+                    if (!ignore_text) begin
+                        current_digit <= 4'h5;
+                        case (state)
+                            IDLE: begin
+                                first_num_bcd <= 24'd5;
+                                state <= FIRST_NUM;
+                            end
+                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h5};
+                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h5};
+                        endcase
+                    end
                 end
                 8'h74: begin  // 6
-                    current_digit <= 4'h6;
-                    case (state)
-                        IDLE: begin
-                            first_num_bcd <= 24'd6;
-                            state <= FIRST_NUM;
-                        end
-                        FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], current_digit};
-                        SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], current_digit};
-                    endcase
+                    if (!ignore_text) begin
+                        current_digit <= 4'h6;
+                        case (state)
+                            IDLE: begin
+                                first_num_bcd <= 24'd6;
+                                state <= FIRST_NUM;
+                            end
+                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h6};
+                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h6};
+                        endcase
+                    end
                 end
                 8'h6C: begin  // 7
-                    current_digit <= 4'h7;
-                    case (state)
-                        IDLE: begin
-                            first_num_bcd <= 24'd7;
-                            state <= FIRST_NUM;
-                        end
-                        FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], current_digit};
-                        SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], current_digit};
-                    endcase
+                    if (!ignore_text) begin
+                        current_digit <= 4'h7;
+                        case (state)
+                            IDLE: begin
+                                first_num_bcd <= 24'd7;
+                                state <= FIRST_NUM;
+                            end
+                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h7};
+                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h7};
+                        endcase
+                    end
                 end
                 8'h75: begin  // 8
-                    current_digit <= 4'h8;
-                    case (state)
-                        IDLE: begin
-                            first_num_bcd <= 24'd8;
-                            state <= FIRST_NUM;
-                        end
-                        FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], current_digit};
-                        SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], current_digit};
-                    endcase
+                    if (!ignore_text) begin
+                        current_digit <= 4'h8;
+                        case (state)
+                            IDLE: begin
+                                first_num_bcd <= 24'd8;
+                                state <= FIRST_NUM;
+                            end
+                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h8};
+                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h8};
+                        endcase
+                    end
                 end
                 8'h7D: begin  // 9
-                    current_digit <= 4'h9;
-                    case (state)
-                        IDLE: begin
-                            first_num_bcd <= 24'd9;
-                            state <= FIRST_NUM;
-                        end
-                        FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], current_digit};
-                        SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], current_digit};
-                    endcase
+                    if (!ignore_text) begin
+                        current_digit <= 4'h9;
+                        case (state)
+                            IDLE: begin
+                                first_num_bcd <= 24'd9;
+                                state <= FIRST_NUM;
+                            end
+                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h9};
+                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h9};
+                        endcase
+                    end
                 end
 
                 // 演算子
