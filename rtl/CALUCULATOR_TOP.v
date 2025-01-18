@@ -62,6 +62,7 @@ reg [23:0] remainder_bin;    // 2進数フォーマットの余り
 reg [1:0] op;               // 演算子 (00:なし, 01:加算, 10:減算, 11:乗算, 00:除算)
 reg [3:0] current_digit;
 reg is_division;
+reg show_remainder;         // 余りを表示するためのフラグ
 
 // BCD変換用の信号線
 wire [23:0] first_num_bin;   // 2進数に変換された最初の数
@@ -104,6 +105,7 @@ always @(posedge clk or negedge iRST_n) begin
         op <= 2'b00;
         current_digit <= 4'h0;
         is_division <= 1'b0;
+        show_remainder <= 1'b0;
         ignore_text <= 1'b0;
     end else if ( !PS2_READY ) begin
         // PS2_READYが0になり、新しい1バイトがSCANCODEに入ったら
@@ -271,12 +273,19 @@ always @(posedge clk or negedge iRST_n) begin
                 8'h4A: begin  // /
                     if (state == FIRST_NUM) begin
                         state <= SECOND_NUM;
+                        op <= 2'b00;  // 除算用のop設定
                         is_division <= 1'b1;
+                    end
+                end
+                8'h29: begin  // Space
+                    if (state == RESULT && is_division) begin
+                        show_remainder <= ~show_remainder;
                     end
                 end
                 8'h5A: begin  // Enter
                     if (state == SECOND_NUM) begin
                         state <= RESULT;
+                        show_remainder <= 1'b0;  // 初期状態では商を表示
                         case (op)
                             2'b01: result_bin <= first_num_bin + second_num_bin;
                             2'b10: result_bin <= first_num_bin - second_num_bin;
@@ -310,14 +319,15 @@ always @(posedge clk or negedge iRST_n) begin
         op <= op;
         current_digit <= current_digit;
         is_division <= is_division;
+        show_remainder <= show_remainder;
         ignore_text <= ignore_text;
     end
 end
 
 // 7セグメントLEDの表示用の値を選択
 wire [23:0] display_num;
-assign display_num = (state == RESULT && is_division) ? remainder_bcd :
-                    (state == RESULT) ? result_bcd :
+assign display_num = (state == RESULT) ? 
+                    (is_division ? (show_remainder ? remainder_bcd : result_bcd) : result_bcd) :
                     (state == SECOND_NUM) ? second_num_bcd : first_num_bcd;
 
 // マウスボタンは未使用（0に設定）
