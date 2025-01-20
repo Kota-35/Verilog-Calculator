@@ -132,8 +132,16 @@ always @(posedge clk or negedge iRST_n) begin
                                 first_num_bcd <= 24'd0;
                                 state <= FIRST_NUM;
                             end
-                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h0};
-                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h0};
+                            FIRST_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (first_num_bcd[23:20] == 4'h0)
+                                    first_num_bcd <= {first_num_bcd[19:0], 4'h0};
+                            end
+                            SECOND_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (second_num_bcd[23:20] == 4'h0)
+                                    second_num_bcd <= {second_num_bcd[19:0], 4'h0};
+                            end
                         endcase
                     end
                 end
@@ -145,8 +153,16 @@ always @(posedge clk or negedge iRST_n) begin
                                 first_num_bcd <= 24'd1;
                                 state <= FIRST_NUM;
                             end
-                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h1};
-                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h1};
+                            FIRST_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (first_num_bcd[23:20] == 4'h0)
+                                    first_num_bcd <= {first_num_bcd[19:0], 4'h1};
+                            end
+                            SECOND_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (second_num_bcd[23:20] == 4'h0)
+                                    second_num_bcd <= {second_num_bcd[19:0], 4'h1};
+                            end
                         endcase
                     end
                 end
@@ -158,8 +174,16 @@ always @(posedge clk or negedge iRST_n) begin
                                 first_num_bcd <= 24'd2;
                                 state <= FIRST_NUM;
                             end
-                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h2};
-                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h2};
+                            FIRST_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (first_num_bcd[23:20] == 4'h0)
+                                    first_num_bcd <= {first_num_bcd[19:0], 4'h2};
+                            end
+                            SECOND_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (second_num_bcd[23:20] == 4'h0)
+                                    second_num_bcd <= {second_num_bcd[19:0], 4'h2};
+                            end
                         endcase
                     end
                 end
@@ -171,8 +195,16 @@ always @(posedge clk or negedge iRST_n) begin
                                 first_num_bcd <= 24'd3;
                                 state <= FIRST_NUM;
                             end
-                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h3};
-                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h3};
+                            FIRST_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (first_num_bcd[23:20] == 4'h0)
+                                    first_num_bcd <= {first_num_bcd[19:0], 4'h3};
+                            end
+                            SECOND_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (second_num_bcd[23:20] == 4'h0)
+                                    second_num_bcd <= {second_num_bcd[19:0], 4'h3};
+                            end
                         endcase
                     end
                 end
@@ -184,8 +216,16 @@ always @(posedge clk or negedge iRST_n) begin
                                 first_num_bcd <= 24'd4;
                                 state <= FIRST_NUM;
                             end
-                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h4};
-                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h4};
+                            FIRST_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (first_num_bcd[23:20] == 4'h0)
+                                    first_num_bcd <= {first_num_bcd[19:0], 4'h4};
+                            end
+                            SECOND_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (second_num_bcd[23:20] == 4'h0)
+                                    second_num_bcd <= {second_num_bcd[19:0], 4'h4};
+                            end
                         endcase
                     end
                 end
@@ -197,8 +237,16 @@ always @(posedge clk or negedge iRST_n) begin
                                 first_num_bcd <= 24'd5;
                                 state <= FIRST_NUM;
                             end
-                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h5};
-                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h5};
+                            FIRST_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (first_num_bcd[23:20] == 4'h0)
+                                    first_num_bcd <= {first_num_bcd[19:0], 4'h5};
+                            end
+                            SECOND_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (second_num_bcd[23:20] == 4'h0)
+                                    second_num_bcd <= {second_num_bcd[19:0], 4'h5};
+                            end
                         endcase
                     end
                 end
@@ -210,8 +258,16 @@ always @(posedge clk or negedge iRST_n) begin
                                 first_num_bcd <= 24'd6;
                                 state <= FIRST_NUM;
                             end
-                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h6};
-                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h6};
+                            FIRST_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (first_num_bcd[23:20] == 4'h0)
+                                    first_num_bcd <= {first_num_bcd[19:0], 4'h6};
+                            end
+                            SECOND_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (second_num_bcd[23:20] == 4'h0)
+                                    second_num_bcd <= {second_num_bcd[19:0], 4'h6};
+                            end
                         endcase
                     end
                 end
@@ -223,8 +279,16 @@ always @(posedge clk or negedge iRST_n) begin
                                 first_num_bcd <= 24'd7;
                                 state <= FIRST_NUM;
                             end
-                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h7};
-                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h7};
+                            FIRST_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (first_num_bcd[23:20] == 4'h0)
+                                    first_num_bcd <= {first_num_bcd[19:0], 4'h7};
+                            end
+                            SECOND_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (second_num_bcd[23:20] == 4'h0)
+                                    second_num_bcd <= {second_num_bcd[19:0], 4'h7};
+                            end
                         endcase
                     end
                 end
@@ -236,8 +300,16 @@ always @(posedge clk or negedge iRST_n) begin
                                 first_num_bcd <= 24'd8;
                                 state <= FIRST_NUM;
                             end
-                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h8};
-                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h8};
+                            FIRST_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (first_num_bcd[23:20] == 4'h0)
+                                    first_num_bcd <= {first_num_bcd[19:0], 4'h8};
+                            end
+                            SECOND_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (second_num_bcd[23:20] == 4'h0)
+                                    second_num_bcd <= {second_num_bcd[19:0], 4'h8};
+                            end
                         endcase
                     end
                 end
@@ -249,8 +321,16 @@ always @(posedge clk or negedge iRST_n) begin
                                 first_num_bcd <= 24'd9;
                                 state <= FIRST_NUM;
                             end
-                            FIRST_NUM: first_num_bcd <= {first_num_bcd[19:0], 4'h9};
-                            SECOND_NUM: second_num_bcd <= {second_num_bcd[19:0], 4'h9};
+                            FIRST_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (first_num_bcd[23:20] == 4'h0)
+                                    first_num_bcd <= {first_num_bcd[19:0], 4'h9};
+                            end
+                            SECOND_NUM: begin
+                                // 最上位桁が0の場合のみ新しい桁を追加
+                                if (second_num_bcd[23:20] == 4'h0)
+                                    second_num_bcd <= {second_num_bcd[19:0], 4'h9};
+                            end
                         endcase
                     end
                 end
@@ -280,6 +360,24 @@ always @(posedge clk or negedge iRST_n) begin
                         op <= 2'b00;  // 除算用のop設定
                         is_division <= 1'b1;
                     end
+                end
+                8'h66: begin  // Backspace
+                    case (state)
+                        FIRST_NUM: begin
+                            first_num_bcd <= {4'h0, first_num_bcd[23:4]};  // 1桁削除
+                            if (first_num_bcd[23:4] == 20'h00000) begin  // すべての桁が0になった場合
+                                state <= IDLE;  // IDLEに戻る
+                            end
+                        end
+                        SECOND_NUM: begin
+                            second_num_bcd <= {4'h0, second_num_bcd[23:4]};  // 1桁削除
+                            if (second_num_bcd[23:4] == 20'h00000) begin  // すべての桁が0になった場合
+                                state <= FIRST_NUM;  // 最初の数字入力に戻る
+                                op <= 2'b00;
+                                is_division <= 1'b0;
+                            end
+                        end
+                    endcase
                 end
                 8'h29: begin  // Space
                     if (state == RESULT && is_division) begin
