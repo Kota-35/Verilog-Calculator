@@ -39,7 +39,7 @@ module SEG7_LUT	(
             4'hc: SEG = 7'b1000110; // C(12)
             4'hd: SEG = 7'b0100001; // d(13)
             4'he: SEG = 7'b0000110; // E(14)
-            4'hf: SEG = 7'b0001110; // F(15)
+            4'hf: SEG = 7'b0111111; // -(15) マイナス記号
          default: SEG = 7'b1111111; // Blank
         endcase
     endfunction

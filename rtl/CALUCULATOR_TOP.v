@@ -63,6 +63,8 @@ reg [1:0] op;               // 演算子 (00:なし, 01:加算, 10:減算, 11:�
 reg [3:0] current_digit;
 reg is_division;
 reg show_remainder;         // 余りを表示するためのフラグ
+reg error_state;           // エラー状態を示すフラグ
+reg is_negative;           // 負の数を示すフラグ
 
 // BCD変換用の信号線
 wire [23:0] first_num_bin;   // 2進数に変換された最初の数
@@ -107,6 +109,8 @@ always @(posedge clk or negedge iRST_n) begin
         is_division <= 1'b0;
         show_remainder <= 1'b0;
         ignore_text <= 1'b0;
+        error_state <= 1'b0;  // エラー状態の初期化
+        is_negative <= 1'b0;  // 負のフラグをリセット
     end else if ( !PS2_READY ) begin
         // PS2_READYが0になり、新しい1バイトがSCANCODEに入ったら
         if (SCANCODE[7:0] == 8'hF0) begin
@@ -286,15 +290,52 @@ always @(posedge clk or negedge iRST_n) begin
                     if (state == SECOND_NUM) begin
                         state <= RESULT;
                         show_remainder <= 1'b0;  // 初期状態では商を表示
-                        case (op)
-                            2'b01: result_bin <= first_num_bin + second_num_bin;
-                            2'b10: result_bin <= first_num_bin - second_num_bin;
-                            2'b11: result_bin <= first_num_bin * second_num_bin;
-                            default: begin  // 除算
-                                result_bin <= first_num_bin / second_num_bin;
-                                remainder_bin <= first_num_bin % second_num_bin;
-                            end
-                        endcase
+                        error_state <= 1'b0;  // エラー状態をリセット
+                        is_negative <= 1'b0;  // 負のフラグをリセット
+                        
+                        // 0除算チェック
+                        if (is_division && second_num_bin == 24'd0) begin
+                            error_state <= 1'b1;
+                        end
+                        // オーバーフローチェック
+                        else begin
+                            case (op)
+                                2'b01: begin  // 加算
+                                    // BCDでの最大値は999999
+                                    if (first_num_bin + second_num_bin > 24'd999999)
+                                        error_state <= 1'b1;
+                                    else
+                                        result_bin <= first_num_bin + second_num_bin;
+                                end
+                                2'b10: begin  // 減算
+                                    if (first_num_bin < second_num_bin) begin
+                                        // 負の数の結果が-999999を超える場合はエラー
+                                        if (second_num_bin - first_num_bin > 24'd99999)
+                                            error_state <= 1'b1;
+                                        else begin
+                                            result_bin <= second_num_bin - first_num_bin;
+                                            is_negative <= 1'b1;  // 負の数フラグを設定
+                                        end
+                                    end else begin
+                                        result_bin <= first_num_bin - second_num_bin;
+                                        is_negative <= 1'b0;
+                                    end
+                                end
+                                2'b11: begin  // 乗算
+                                    // BCDでの最大値は999999
+                                    if (first_num_bin * second_num_bin > 24'd999999)
+                                        error_state <= 1'b1;
+                                    else
+                                        result_bin <= first_num_bin * second_num_bin;
+                                end
+                                default: begin  // 除算
+                                    if (!error_state) begin
+                                        result_bin <= first_num_bin / second_num_bin;
+                                        remainder_bin <= first_num_bin % second_num_bin;
+                                    end
+                                end
+                            endcase
+                        end
                     end else begin
                         state <= IDLE;
                         first_num_bcd <= 24'd0;
@@ -303,6 +344,8 @@ always @(posedge clk or negedge iRST_n) begin
                         remainder_bin <= 24'd0;
                         op <= 2'b00;
                         is_division <= 1'b0;
+                        error_state <= 1'b0;
+                        is_negative <= 1'b0;  // 負のフラグをリセット
                     end
                 end
                 
@@ -321,12 +364,16 @@ always @(posedge clk or negedge iRST_n) begin
         is_division <= is_division;
         show_remainder <= show_remainder;
         ignore_text <= ignore_text;
+        error_state <= error_state;
+        is_negative <= is_negative;
     end
 end
 
 // 7セグメントLEDの表示用の値を選択
 wire [23:0] display_num;
-assign display_num = (state == RESULT) ? 
+assign display_num = (error_state) ? 24'h00000E :  // エラー時は'E'を表示
+                    (state == RESULT && is_negative) ? {4'hF, result_bcd[19:0]} :  // 負の数の場合、最上位桁に'-'を表示
+                    (state == RESULT) ? 
                     (is_division ? (show_remainder ? remainder_bcd : result_bcd) : result_bcd) :
                     (state == SECOND_NUM) ? second_num_bcd : first_num_bcd;
 
