@@ -114,11 +114,10 @@ always @(posedge clk or negedge iRST_n) begin
     end else if ( !PS2_READY ) begin
         // PS2_READYが0になり、新しい1バイトがSCANCODEに入ったら
         if (SCANCODE[7:0] == 8'hF0) begin
-            // 次の１バイトを無視するためのフラグを立てる
+
             ignore_text <= 1'b1;
         end else if (ignore_text) begin
-            // 直前に0xF0が来ていた場合、今回の1バイトを無視
-            // (つまり、離しコードは捨てる)
+            
             ignore_text <= 1'b0;
         end else begin
             // ここで初めて押下として処理する
